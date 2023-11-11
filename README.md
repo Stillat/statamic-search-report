@@ -105,6 +105,37 @@ The search report provides a number of fields to help you make sense of your use
 * Result Count: The total number of results returned by the search term over time
 * Last Searched On: The date and time the search term was last searched
 
+## Storing Searches for Authenticated Users
+
+By default, Search Report for Statamic will *not* log searches made by authenticated users on your site. This can be changed by modifying the following configuration option within the `config/search_report.php` configuration file:
+
+```php
+<?php
+
+return [
+
+    // ...
+
+    /*
+    |--------------------------------------------------------------------------
+    | Authenticated User Search Logging Configuration
+    |--------------------------------------------------------------------------
+    |
+    | The 'Ignore Authenticated Users' option configures the logging of search
+    | queries made by signed-in users. When enabled, it prevents the storage
+    | of search activities from authenticated accounts. This can be useful
+    | when the only authenticated users are administrators or editors.
+    |
+    */
+
+    'ignore_authenticated_users' => true,
+
+    // ...
+
+];
+
+```
+
 ## Clearing the Search Log
 
 You may clear all entries in the search log by running the following command from the root of your project:
