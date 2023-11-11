@@ -1,0 +1,24 @@
+{
+    "name": "stillat/statamic-search-report",
+    "autoload": {
+        "psr-4": {
+            "Stillat\\StatamicSearchReport\\": "src"
+        }
+    },
+    "require": {
+        "php": "^8.0",
+        "statamic/cms": "^4.0",
+        "stillat/statamic-template-resolver": "^1.0"
+    },
+    "extra": {
+        "statamic": {
+            "name": "Search Report for Statamic",
+            "description": "Provides a simple report of search queries performed on your Statamic site."
+        },
+        "laravel": {
+            "providers": [
+                "Stillat\\StatamicSearchReport\\ServiceProvider"
+            ]
+        }
+    }
+}
