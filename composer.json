@@ -1,5 +1,6 @@
 {
     "name": "stillat/statamic-search-report",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Stillat\\StatamicSearchReport\\": "src"
