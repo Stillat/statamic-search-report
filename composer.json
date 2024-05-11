@@ -8,8 +8,8 @@
     },
     "require": {
         "php": "^8.0",
-        "statamic/cms": "^4.0",
-        "stillat/statamic-template-resolver": "^1.0"
+        "statamic/cms": "^4.0 || ^5",
+        "stillat/statamic-template-resolver": "^1.1"
     },
     "extra": {
         "statamic": {
@@ -20,6 +20,11 @@
             "providers": [
                 "Stillat\\StatamicSearchReport\\ServiceProvider"
             ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pixelfear/composer-dist-plugin": true
         }
     }
 }
