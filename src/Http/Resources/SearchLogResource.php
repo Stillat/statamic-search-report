@@ -13,7 +13,7 @@ class SearchLogResource extends ResourceCollection
      *
      * @return array<int|string, mixed>
      */
-    public function toArray(Request $request): array
+    public function toArray(Request $request)
     {
         $searchLogs = parent::toArray($request);
         $dateFormat = config('statamic.cp.date_format', 'Y-m-d');
