@@ -8,8 +8,18 @@
     },
     "require": {
         "php": "^8.0",
-        "statamic/cms": "^4.0 || ^5",
-        "stillat/statamic-template-resolver": "^1.1"
+        "statamic/cms": "^4.0 || ^5 || ^6",
+        "stillat/statamic-template-resolver": "^1.2"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0 || ^10.0",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Stillat\\StatamicSearchReport\\Tests\\": "tests"
+        }
     },
     "extra": {
         "statamic": {
@@ -24,7 +34,8 @@
     },
     "config": {
         "allow-plugins": {
-            "pixelfear/composer-dist-plugin": true
+            "pixelfear/composer-dist-plugin": true,
+            "pestphp/pest-plugin": true
         }
     }
 }
