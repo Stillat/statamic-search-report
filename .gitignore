@@ -1,3 +1,12 @@
 node_modules
 vendor
 mix-manifest.json
+.env
+.env.backup
+.env.production
+auth.json
+npm-debug.log
+yarn-error.log
+.DS_Store
+composer.lock
+/.vscode

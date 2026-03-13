@@ -5,9 +5,27 @@ namespace Stillat\StatamicSearchReport\Http\Resources;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Statamic\CP\Column;
+use Statamic\Facades\Blueprint;
+use Statamic\Http\Resources\CP\Concerns\HasRequestedColumns;
 
 class SearchLogResource extends ResourceCollection
 {
+    use HasRequestedColumns;
+
+    protected $blueprint;
+
+    protected $columns;
+
+    protected $columnPreferenceKey;
+
+    public function __construct($resource)
+    {
+        parent::__construct($resource);
+
+        $this->blueprint = Blueprint::makeFromFields([]);
+    }
+
     /**
      * Transform the resource collection into an array.
      *
@@ -26,48 +44,76 @@ class SearchLogResource extends ResourceCollection
         return $searchLogs;
     }
 
-    public function with(Request $request)
+    public function blueprint($blueprint)
     {
+        $this->blueprint = $blueprint;
+
+        return $this;
+    }
+
+    public function columnPreferenceKey($key)
+    {
+        $this->columnPreferenceKey = $key;
+
+        return $this;
+    }
+
+    public function setColumns()
+    {
+        $columns = $this->blueprint->columns();
+
+        $index = Column::make('index')
+            ->label(trans('statamic-search-report::search_report.index'))
+            ->visible(true)
+            ->sortable(true);
+
+        $term = Column::make('term')
+            ->label(trans('statamic-search-report::search_report.term'))
+            ->visible(true)
+            ->sortable(true)
+            ->required(true);
+
+        $searchFrequency = Column::make('search_frequency')
+            ->label(trans('statamic-search-report::search_report.search_frequency'))
+            ->visible(true)
+            ->sortable(true);
+
+        $subsequentPageCount = Column::make('subsequent_page_count')
+            ->label(trans('statamic-search-report::search_report.subsequent_page_frequency'))
+            ->visible(true)
+            ->sortable(true);
+
+        $resultCount = Column::make('result_count')
+            ->label(trans('statamic-search-report::search_report.result_count'))
+            ->visible(true)
+            ->sortable(true);
+
+        $lastSearched = Column::make('updated_at')
+            ->label(trans('statamic-search-report::search_report.last_searched'))
+            ->visible(true)
+            ->sortable(true);
+
+        $columns->put('index', $index);
+        $columns->put('term', $term);
+        $columns->put('search_frequency', $searchFrequency);
+        $columns->put('subsequent_page_count', $subsequentPageCount);
+        $columns->put('result_count', $resultCount);
+        $columns->put('updated_at', $lastSearched);
+
+        if ($key = $this->columnPreferenceKey) {
+            $columns->setPreferred($key);
+        }
+
+        $this->columns = $columns->rejectUnlisted()->values();
+    }
+
+    public function with($request)
+    {
+        $this->setColumns();
+
         return [
             'meta' => [
-                'columns' => [
-                    [
-                        'label' => trans('statamic-search-report::search_report.index'),
-                        'field' => 'index',
-                        'visible' => true,
-                        'sortable' => true,
-                    ],
-                    [
-                        'label' => trans('statamic-search-report::search_report.term'),
-                        'field' => 'term',
-                        'visible' => true,
-                        'sortable' => true,
-                    ],
-                    [
-                        'label' => trans('statamic-search-report::search_report.search_frequency'),
-                        'field' => 'search_frequency',
-                        'visible' => true,
-                        'sortable' => true,
-                    ],
-                    [
-                        'label' => trans('statamic-search-report::search_report.subsequent_page_frequency'),
-                        'field' => 'subsequent_page_count',
-                        'visible' => true,
-                        'sortable' => true,
-                    ],
-                    [
-                        'label' => trans('statamic-search-report::search_report.result_count'),
-                        'field' => 'result_count',
-                        'visible' => true,
-                        'sortable' => true,
-                    ],
-                    [
-                        'label' => trans('statamic-search-report::search_report.last_searched'),
-                        'field' => 'updated_at',
-                        'visible' => true,
-                        'sortable' => true,
-                    ],
-                ],
+                'columns' => $this->visibleColumns(),
             ],
         ];
     }
