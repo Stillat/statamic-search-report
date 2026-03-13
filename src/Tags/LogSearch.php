@@ -18,7 +18,7 @@ class LogSearch extends Tags
 
         $index = $this->params->get('index', 'default');
         $site = $this->params->get('site', null) ?? Site::current()->handle();
-        $resultCount = $this->params->get('result_count', null) ?? $this->context['total_items'] ?? 0;
+        $resultCount = $this->params->get('result_count', null) ?? $this->context['total_results'] ?? 0;
         $pageNum = $this->params->get('page', null) ?? $this->context['current_page'] ?? 1;
 
         Logger::log($index, $term, $site, $pageNum, $resultCount);

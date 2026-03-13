@@ -23,6 +23,7 @@ class ServiceProvider extends AddonServiceProvider
     protected $vite = [
         'input' => [
             'resources/js/addon.js',
+            'resources/css/addon.css',
         ],
         'publicDirectory' => 'resources/dist',
     ];
@@ -41,11 +42,11 @@ class ServiceProvider extends AddonServiceProvider
         view()->addNamespace('search-report', __DIR__.'/../resources/views');
 
         Utility::extend(function () {
-            Utility::register('search_report')
-                ->view('search-report::search_report')
-                ->title(trans('statamic-search-report::search_report.search_report'))
-                ->icon('search')
+            Utility::register('search-report')
+                ->inertia('search-report::SearchReport')
+                ->icon('map-search')
                 ->description(trans('statamic-search-report::search_report.search_report_desc'));
         });
+
     }
 }
