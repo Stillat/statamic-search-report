@@ -43,6 +43,7 @@ class ServiceProvider extends AddonServiceProvider
 
         Utility::extend(function () {
             Utility::register('search-report')
+                ->title(trans('statamic-search-report::search_report.search_report'))
                 ->inertia('search-report::SearchReport')
                 ->icon('map-search')
                 ->description(trans('statamic-search-report::search_report.search_report_desc'));
