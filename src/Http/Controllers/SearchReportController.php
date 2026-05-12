@@ -16,22 +16,31 @@ class SearchReportController extends Controller
 
         $sortCol = 'result_count';
         $sortOrder = 'asc';
-        $perPage = request()->get('perPage', 10);
+        $perPage = request()->input('perPage', 10);
+        $search = request()->input('search');
+        $query = SearchTermLog::query();
 
-        if ($sortParam = request()->get('sort')) {
+        if ($sortParam = request()->input('sort')) {
             if (in_array($sortParam, $sortableColumns)) {
                 $sortCol = $sortParam;
             }
         }
 
-        if ($orderParam = request()->get('order')) {
+        if ($orderParam = request()->input('order')) {
             if (in_array($orderParam, ['asc', 'desc'])) {
                 $sortOrder = $orderParam;
             }
         }
 
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('term', 'like', '%'.$search.'%');
+            });
+        }
+
         return new SearchLogResource(
-            SearchTermLog::orderBy($sortCol, $sortOrder)->paginate($perPage)
-        );
+            $query->orderBy($sortCol, $sortOrder)->paginate($perPage)
+        )
+        ->columnPreferenceKey('searchReport.columns');
     }
 }
